@@ -28,3 +28,5 @@ This little cli can help you track this time to see how many flexible hours you 
 - [ ] able to set and change default workspace
 - [ ] able to set and change default tags for flex plus / flex minus
 - [ ] store user id
+- [ ] colors and stuf
+- [ ] spinner
