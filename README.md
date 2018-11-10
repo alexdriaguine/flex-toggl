@@ -12,19 +12,18 @@ This little cli can help you track this time to see how many flexible hours you 
 ## Using
 1. Install dependencies `yarn`
 2. Compile ts -> js, `yarn compile`
-3. Change `credentials.example.ts` to `credentials.ts`
 4. Go to your toggle account profile, `toggl.com/app/profile`
 5. Scroll down until you see **API token**, copy paste it into the `apiToken` variable in `credentials.ts`
 6. Run it `yarn run` 
+7. Paste the token when prompted
 
 ## TODO:
 
-- [ ] smarter request stuf, maybe use got or smth
-- [ ] type the responses
-- [ ] make it work for me
+- [x] type the responses
+- [x] make it work for me
 - [ ] npm package, so we can use `npx`
-- [ ] able to set and store api token
-- [ ] able to log in and use email/passwd as basic
+- [x] able to set and store api token()
+- [ ] encrypt token or something
 - [ ] able to set and change default workspace
 - [ ] able to set and change default tags for flex plus / flex minus
 - [ ] store user id

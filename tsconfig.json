@@ -18,6 +18,11 @@
     "strictFunctionTypes": true /* Enable strict checking of function types. */,
     "noImplicitThis": true /* Raise error on 'this' expressions with an implied 'any' type. */,
     "alwaysStrict": true /* Parse in strict mode and emit "use strict" for each source file. */,
+    "typeRoots": [
+      "node_modules/@types",
+      "lib/typings"
+    ],
+    "noUnusedLocals": true,
 
     /* Additional Checks */
     "noImplicitReturns": true /* Report error when not all code paths in function return a value. */
