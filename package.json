@@ -1,0 +1,21 @@
+{
+  "name": "toggl-flex",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "run": "node dist/main.js",
+    "run:dev": "tsc && node dist/main.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^10.12.5",
+    "@types/node-fetch": "^2.1.2",
+    "typescript": "^3.1.6"
+  },
+  "dependencies": {
+    "node-fetch": "^2.2.1"
+  }
+}
