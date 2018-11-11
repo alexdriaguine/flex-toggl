@@ -1,11 +1,14 @@
 {
   "name": "toggl-flex",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "",
   "main": "index.js",
+  "bin": "dist/main.js",
   "scripts": {
     "run": "node dist/main.js",
-    "run:dev": "tsc && node dist/main.js"
+    "run:dev": "tsc && node dist/main.js",
+    "compile": "tsc",
+    "prepublish": "yarn compile"
   },
   "keywords": [],
   "author": "",
