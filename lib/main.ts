@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import chalk from 'chalk'
 import {getTogglClient, SummaryData} from './toggl'
 import {RequestError} from './request-error'
