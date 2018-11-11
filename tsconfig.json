@@ -22,7 +22,7 @@
       "node_modules/@types",
       "lib/typings"
     ],
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
 
     /* Additional Checks */
     "noImplicitReturns": true /* Report error when not all code paths in function return a value. */

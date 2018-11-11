@@ -4,9 +4,9 @@ import {RequestError} from './request-error'
 import {prompt} from './prompt'
 import {toFlexTimeString, getFlexTime} from './time'
 import {store} from './store'
+import * as commandLineArgs from 'command-line-args'
 
 async function getBalance() {
-
   let settings = store.getSettings()
 
   if (!settings.apiToken) {
@@ -66,23 +66,84 @@ async function getBalance() {
   }
 }
 
-getBalance()
-  .then(({positive, flexTime}) => {
-    const color = positive ? chalk.greenBright : chalk.redBright
-    const prefix = positive ? '+' : '-'
-    console.log(color(`Balance: ${prefix}${flexTime}`))
-    process.exit(0)
+const settings = () => {
+  const settingsDefitions = [{name: 'token', alias: 't'}]
+  const settingsOptions = commandLineArgs(settingsDefitions, {argv})
+
+  if (settingsOptions.token) {
+    store.setSettings({apiToken: settingsOptions.token}).then(() => {
+      console.log(chalk.greenBright('Successfully set toggl api token'))
+    })
+  }
+}
+
+const help = (subCommand: string) => {
+  if (subCommand === 'balance') {
+    console.log('Balance help')
+  } else if (subCommand === 'settings') {
+    console.log('Settings help')
+  } else {
+    const help = `
+${chalk.underline.bold('toggl-flex')}
+
+  Check your flex(ible) time at toggl!
+
+${chalk.underline.bold('Usage')}
+
+  $ toggl-flex <command> <options>
+  $ toggl-flex balance
+  $ toggl-flex settings -t <your-toggle-token>
+
+${chalk.underline.bold('Commands')}
+
+  balance       Get your flex(ible) time balance
+  settings      Set settings
+  help          Se command line usage
+
+Run 'toggl-flex help <command>' for help with a specific command
+        `
+    console.log(help)
+  }
+}
+
+/* first - parse the main command */
+let mainDefinitions = [{name: 'name', defaultOption: true}]
+const mainCommand = commandLineArgs(mainDefinitions, {stopAtFirstUnknown: true})
+let argv = mainCommand._unknown || []
+
+if (mainCommand.name === 'balance') {
+  getBalance()
+    .then(({positive, flexTime}) => {
+      const color = positive ? chalk.greenBright : chalk.redBright
+      const prefix = positive ? '+' : '-'
+      console.log(color(`Balance: ${prefix}${flexTime}`))
+      process.exit(0)
+    })
+    .catch(err => {
+      if (err instanceof RequestError) {
+        console.log(chalk.red(`${err.code}: ${err.message}`))
+        process.exit(1)
+        return
+        // If 403, prompt user for new token
+        // Save it, and rerum main!
+      } else {
+        console.log(chalk.red('Something went wrong.. Im so sorry'))
+        process.exit(1)
+        return
+      }
+    })
+}
+
+if (mainCommand.name === 'settings') {
+  settings()
+}
+
+if (mainCommand.name === 'help' || !mainCommand.name) {
+  const runDefinitions = [{name: 'name', defaultOption: true}]
+
+  const subCommand = commandLineArgs(runDefinitions, {
+    argv,
+    stopAtFirstUnknown: true,
   })
-  .catch(err => {
-    if (err instanceof RequestError) {
-      console.log(chalk.red(`${err.code}: ${err.message}`))
-      process.exit(1)
-      return
-      // If 403, prompt user for new token
-      // Save it, and rerum main!
-    } else {
-      console.log(chalk.red('Something went wrong.. Im so sorry'))
-      process.exit(1)
-      return
-    }
-  })
+  help(subCommand.name)
+}
